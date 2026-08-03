@@ -27,6 +27,7 @@ struct AmbientMacApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private var coordinator: CaptureCoordinator?
+    private var consolidationWindow: ConsolidationWindowController?
 
     private enum Tag {
         static let record = 99
@@ -58,10 +59,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         coordinator.start()
         self.coordinator = coordinator
+
+        // Capture-on is a session boundary. The consolidation window owns the
+        // durable timeline and Guild/RocketRide interaction state for it.
+        consolidationWindow = ConsolidationWindowController()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         coordinator?.stop()
+        consolidationWindow?.model.store.end()
     }
 
     // MARK: - UI
@@ -159,6 +165,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
+        let consolidate = NSMenuItem(
+            title: "Open session intelligence…",
+            action: #selector(openConsolidation), keyEquivalent: "i"
+        )
+        consolidate.keyEquivalentModifierMask = [.command]
+        consolidate.target = self
+        menu.addItem(consolidate)
+
+        menu.addItem(.separator())
+
         // The rehearsed fallback: fire the wander script's notes by hand if the
         // mic misbehaves on stage.
         let scripted = NSMenu()
@@ -200,6 +216,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleRecording() {
         coordinator?.toggleNote()
+    }
+
+    @objc private func openConsolidation() {
+        consolidationWindow?.present()
     }
 
     @objc private func injectScriptedNote(_ sender: NSMenuItem) {

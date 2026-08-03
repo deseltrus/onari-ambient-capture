@@ -5,6 +5,9 @@ Usage: python run_demo.py [fixtures.jsonl]  (default: the full demo sequence)
 import sys
 from pathlib import Path
 
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from common import REPO_ROOT, get_graph
 from consolidate import consolidate, render
 from ingest import ingest_fixtures

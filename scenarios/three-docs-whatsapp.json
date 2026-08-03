@@ -12,6 +12,7 @@
     "channel": "whatsapp",
     "group": "Hackathon 08/03 - TEAM O"
   },
+  "hardcoded_message": "Hey TEAM O 👋 quick update from the research dive.\n\nI went through the RocketRide Cloud docs and the FalkorDB docs on Safari — here's what it means for our build:\n\n• RocketRide runs pipelines async and hands back a trace URL, so it's the right thing to build our dispatch/execution layer on.\n• FalkorDB has vector indexes — episode embeddings live right on the graph nodes, so we don't need a separate vector store.\n\nNet: execution on RocketRide, memory in FalkorDB. Pushing on the wiring now — more soon. 🚀",
   "boards": [
     {
       "board_id": "d0000001-0000-4000-8000-000000000001",

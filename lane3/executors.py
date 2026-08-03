@@ -88,10 +88,13 @@ def _history_for_topic(frame: dict[str, Any], topic: str) -> str | None:
 
 
 def draft_whatsapp_message(frame: dict[str, Any], group: str) -> str:
-    """Deterministically synthesize the team update from the three documents,
-    the answers pulled from the question tabs, and the open team threads. This
-    is what proves the point: every line cites something the user saw but never
-    relayed."""
+    """The team update. For the demo the scenario ships a polished, hardcoded
+    message so the send is deterministic; otherwise it is synthesized from the
+    three documents, the answers pulled from the question tabs, and the open
+    team threads — every line citing something the user saw but never relayed."""
+    hardcoded = frame.get("hardcoded_message")
+    if isinstance(hardcoded, str) and hardcoded.strip():
+        return hardcoded
     lines: list[str] = ["Team — quick sync before the build call. I went deep on the docs:"]
     nets: list[str] = []
     index = 1

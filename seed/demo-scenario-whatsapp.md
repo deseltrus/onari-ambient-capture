@@ -43,14 +43,34 @@ open TEAM O threads:
 The payoff is that all three answers exist in the user's tabs and none of them
 reached the team.
 
+## On-stage flow (what the presenter does)
+
+1. Menu bar shows **◉ onari** — capture is live. Open the window with **⌘I**.
+2. Top-left, the green **Onari · live** dot pulses the whole time — the honesty
+   indicator that Onari is running.
+3. The window does a short **staged "thinking"** pass (Reviewing this session →
+   Reconnecting to memory → Finding what you never wrote down → Assembling), so
+   nothing snaps in instantly.
+4. **What Onari noticed** appears in large type, with the three documents and the
+   open TEAM O thread as evidence. Events are *not* on this surface — they live
+   behind the **Activity** button (top-right).
+5. *(Optional)* Tap the **mic** and ask a question by voice — on-device speech
+   fills the chat and Onari answers in the same session.
+6. After a beat — "Onari is deciding what would help…" — the **suggested action
+   animates in**: *Send update to Hackathon 08/03 - TEAM O.*
+7. **Accept it by voice/hotkey (⌃⌥⌘↩)** or click it. The RocketRide execution
+   pipeline plays back live and the WhatsApp message lands in a green bubble,
+   "Sent to Hackathon 08/03 - TEAM O", with a RocketRide trace link.
+
 ## The dispatch (the execution pipeline)
 
-The suggested action is **send a WhatsApp update to the group
-"Hackathon 08/03 - TEAM O"** summarizing what the three documents settle.
+The message is a **hardcoded, polished team update** (`hardcoded_message` in the
+scenario) so the send is deterministic on stage: it summarizes reading the
+RocketRide Cloud docs and the FalkorDB docs on Safari and what they mean for the
+build.
 
-Intent frame → policy check → approval → **RocketRide execution pipeline** →
-WhatsApp message drafted from the three-document synthesis → sent to the group →
-delivery confirmation streams back onto the dispatch surface.
+Intent frame → policy check → approval (hotkey **⌃⌥⌘↩** or click) → **RocketRide
+execution pipeline** → WhatsApp message → group → delivery confirmation.
 
 For the demo the pipeline runs in **rehearsal mode**: every step is shown live
 (assemble context → draft → policy check → open WhatsApp → send → confirm) but

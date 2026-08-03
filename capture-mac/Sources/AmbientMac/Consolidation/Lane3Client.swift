@@ -137,6 +137,7 @@ private struct IntentFrame: Decodable {
     let history_joins: [HistoryJoin]
     let scenario: String?
     let target: Target?
+    let hardcoded_message: String?
 
     var isWhatsApp: Bool { scenario == "three-docs-whatsapp" || target?.channel == "whatsapp" }
     var group: String { target?.group ?? "Hackathon 08/03 - TEAM O" }
@@ -322,6 +323,9 @@ private final class FixtureLane3Client: Lane3Serving {
     }
 
     private func draftWhatsAppMessage(frame: IntentFrame) -> String {
+        if let hardcoded = frame.hardcoded_message, !hardcoded.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return hardcoded
+        }
         var lines = ["Team — quick sync before the build call. I went deep on the docs:"]
         var nets: [String] = []
         let docs = frame.documentBoards.sorted { strongestScore($0) > strongestScore($1) }

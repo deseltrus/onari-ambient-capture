@@ -36,6 +36,38 @@ here is setup material; the product gets built today.
 Lanes 2 and 3 never wait on lane 1: fixtures carry them until integration.
 
 
+
+## How context binds (read this first, it is the core)
+
+Nothing floats free. Every captured thing carries its surface and its moment:
+
+1. **Note → surface.** A note event carries `board_id + app + title + t`
+   (see `event-contract.json`). The graph writer stores it as
+   `(:Note)-[:ON]->(:Board)` with the timestamp. A note is never loose
+   text; it is text AT a surface AT a moment.
+2. **Surface → session.** The switch chain
+   `(:Board)-[:SWITCHED_TO {t, seq}]->(:Board)` gives every board its
+   position in the wander order. That is how "what I saw in that moment"
+   stays in context.
+3. **Deltas** (an agent answer arriving) bind the same way:
+   `(:Delta)-[:AT]->(:Board)`.
+4. **History join.** Boards and notes link to seeded/accumulated topics:
+   `(:Note|:Board)-[:RELATES_TO]->(:Topic)`. This is where the never-noted
+   surface becomes relevant.
+5. **Consolidation = ONE model call** (the Guild consolidation agent).
+   INPUT: graph query results only — boards in wander order with their
+   notes, deltas, and topic joins. Never raw transcripts.
+   OUTPUT: an intent frame:
+   ```json
+   { "mission": "one sentence",
+     "boards": ["wander order"],
+     "candidates": [ { "action": "...", "why": {
+         "source": "note or glance on board X at t",
+         "history": "topic thread it joins" } } ] }
+   ```
+   A candidate without a `why` (source + history) is invalid. This frame
+   is what gets approved and dispatched; the result event closes the loop.
+
 ## Already prepared before today (declared base)
 
 - `event-contract.json` — four event types (switch, note, delta, result), two streams. Drafted, waiting for team confirmation

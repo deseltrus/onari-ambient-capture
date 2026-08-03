@@ -50,11 +50,23 @@ struct OnariSession: Codable, Equatable {
     var nextSequence: Int
 }
 
+/// One line in the live execution pipeline the RocketRide dispatch runs. The UI
+/// reveals these one at a time so a rehearsed dispatch reads as if it is
+/// happening on stage.
+struct ExecutionStep: Codable, Identifiable, Equatable {
+    let id: String
+    let label: String
+    let status: String   // done | skipped | failed | running
+    let detail: String?
+    let t: String?
+}
+
 struct DispatchResult: Codable, Equatable {
     let dispatchId: String
     let status: String
     let artifact: String?
     let traceURL: String?
+    let steps: [ExecutionStep]?
 }
 
 enum ISOTime {

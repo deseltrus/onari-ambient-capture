@@ -14,6 +14,7 @@ import datetime as dt
 import json
 import os
 import pathlib
+import sys
 import urllib.error
 import urllib.request
 import uuid
@@ -21,9 +22,38 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-FRAME_PATH = pathlib.Path(os.getenv("ONARI_INTENT_FRAME", ROOT / "intent-frame.json"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import executors  # noqa: E402  (sibling module; needs the path insert above)
+
+
+def resolve_frame_path() -> pathlib.Path:
+    """Explicit ONARI_INTENT_FRAME wins. Otherwise pick the scenario frame under
+    scenarios/ (default: the three-docs -> WhatsApp demo). Fall back to the
+    legacy intent-frame.json so the older LinkedIn scenario still runs."""
+    explicit = os.getenv("ONARI_INTENT_FRAME")
+    if explicit:
+        return pathlib.Path(explicit)
+    scenario = os.getenv("ONARI_SCENARIO", "three-docs-whatsapp")
+    candidate = ROOT / "scenarios" / f"{scenario}.json"
+    if candidate.exists():
+        return candidate
+    return ROOT / "intent-frame.json"
+
+
+FRAME_PATH = resolve_frame_path()
 SESSIONS: dict[str, list[dict[str, str]]] = {}
 RESPONSES: dict[str, dict[str, Any]] = {}
+
+
+def is_whatsapp_scenario(frame: dict[str, Any]) -> bool:
+    return (
+        frame.get("scenario") == "three-docs-whatsapp"
+        or frame.get("target", {}).get("channel") == "whatsapp"
+    )
+
+
+def whatsapp_group(frame: dict[str, Any]) -> str:
+    return frame.get("target", {}).get("group", "Hackathon 08/03 - TEAM O")
 
 
 def now() -> str:
@@ -92,9 +122,78 @@ def fixture_response(session_id: str) -> dict[str, Any]:
     return response
 
 
+def whatsapp_fixture_response(session_id: str, frame: dict[str, Any]) -> dict[str, Any]:
+    """Consolidation for the three-documents demo. The insight is the synthesis
+    ACROSS the documents the user read, each joined to an open TEAM O thread, and
+    the payoff action is a WhatsApp update to the team group."""
+    group = whatsapp_group(frame)
+    docs = sorted(
+        executors._document_boards(frame),
+        key=lambda b: max((t.get("score", 0) for t in b.get("topics", [])), default=0),
+        reverse=True,
+    )
+
+    evidence: list[dict[str, Any]] = []
+    for board in docs:
+        topic = max(board.get("topics", []), key=lambda t: t.get("score", 0), default={}).get("topic", "")
+        answer = executors._answer_for_topic(frame, topic)
+        note = (board.get("notes") or [{}])[0].get("text")
+        evidence.append({
+            "id": board["board_id"],
+            "kind": "unspoken_board" if board.get("unspoken") else "note",
+            "label": board["title"],
+            "detail": answer or note or "Read this session; you never wrote down what it settled.",
+            "observedAt": board.get("last_seen"),
+        })
+    # The single strongest open thread, as the concrete history join.
+    top_topic = max(
+        (t for board in docs for t in board.get("topics", [])),
+        key=lambda t: t.get("score", 0),
+        default={},
+    ).get("topic")
+    history = executors._history_for_topic(frame, top_topic) if top_topic else None
+    if history:
+        episode = next((j for j in frame.get("history_joins", []) if j.get("topic") == top_topic), {})
+        evidence.append({
+            "id": episode.get("episode", "seed_team_thread"),
+            "kind": "history_join",
+            "label": "Open TEAM O thread",
+            "detail": history,
+            "observedAt": episode.get("t"),
+        })
+
+    doc_count = len(docs)
+    open_threads = len({j.get("topic") for j in frame.get("history_joins", [])})
+    summary = (
+        f"You read {doc_count} documents and answered {open_threads} open TEAM O "
+        f"questions in your tabs — but none of those answers reached the team. "
+        f"Onari can post the synthesis to “{group}” for you."
+    )
+
+    response = {
+        "id": f"response_{uuid.uuid4()}",
+        "sessionId": session_id,
+        "createdAt": now(),
+        "summary": summary,
+        "evidence": evidence,
+        "suggestedActions": [{
+            "id": f"action_{uuid.uuid4()}",
+            "type": "send_whatsapp",
+            "label": f"Send update to {group}",
+            "requiresApproval": True,
+            "target": group,
+        }],
+    }
+    RESPONSES[response["id"]] = response
+    return response
+
+
 def consolidate(session_id: str) -> dict[str, Any]:
     provider = os.getenv("ONARI_AI_PROVIDER", "fixture").lower()
     if provider == "fixture":
+        frame = load_frame()
+        if is_whatsapp_scenario(frame):
+            return whatsapp_fixture_response(session_id, frame)
         return fixture_response(session_id)
 
     frame = load_frame()
@@ -212,11 +311,40 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
     if payload.get("approved") not in (True, "true"):
         raise ValueError("RocketRide dispatch requires explicit approval")
 
+    frame = load_frame()
     response = RESPONSES.get(payload.get("responseId", ""))
     if not response:
-        response = fixture_response(payload["sessionId"])
+        response = (
+            whatsapp_fixture_response(payload["sessionId"], frame)
+            if is_whatsapp_scenario(frame)
+            else fixture_response(payload["sessionId"])
+        )
 
     dispatch_id = f"dispatch_{uuid.uuid4()}"
+
+    # WhatsApp scenario: draft the team update from the three documents and run
+    # it through the selected execution pipeline (rehearsal by default).
+    if is_whatsapp_scenario(frame):
+        group = whatsapp_group(frame)
+        message = executors.draft_whatsapp_message(frame, group)
+        intent = {
+            "dispatchId": dispatch_id,
+            "sessionId": payload["sessionId"],
+            "action": "send_whatsapp",
+            "objective": response["summary"],
+            "evidence": response["evidence"],
+            "constraints": {"artifactOnly": True, "doNotSend": os.getenv("ONARI_EXECUTOR", "rehearsal") != "whatsapp_mac"},
+            "approval": {"approvedBy": "user", "approvedAt": now()},
+        }
+        result = executors.execute(intent, message, group)
+        return {
+            "dispatchId": result["dispatchId"],
+            "status": result["status"],
+            "artifact": result.get("artifact"),
+            "traceURL": result.get("traceURL"),
+            "steps": result.get("steps", []),
+        }
+
     endpoint = os.getenv("ROCKETRIDE_ENDPOINT")
     if endpoint:
         result = request_json(
@@ -308,5 +436,10 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.getenv("ONARI_LANE3_PORT", "8765"))
-    print(f"lane3: http://127.0.0.1:{port} · provider={os.getenv('ONARI_AI_PROVIDER', 'fixture')}")
+    print(
+        f"lane3: http://127.0.0.1:{port} · provider={os.getenv('ONARI_AI_PROVIDER', 'fixture')}"
+        f" · scenario={os.getenv('ONARI_SCENARIO', 'three-docs-whatsapp')}"
+        f" · executor={os.getenv('ONARI_EXECUTOR', 'rehearsal')}"
+        f" · frame={FRAME_PATH.name}"
+    )
     ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()

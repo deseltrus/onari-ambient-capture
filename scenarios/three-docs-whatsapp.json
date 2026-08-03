@@ -1,0 +1,135 @@
+{
+  "$comment": "Prepared demo scenario for the 3-documents -> WhatsApp story. Loaded by lane3/bridge.py when ONARI_SCENARIO=three-docs-whatsapp (the default). Shape matches intent-frame.json: mission + boards[] + history_joins[]. Extra keys (notes/deltas/questions) are additive and ignored by the Swift decoder.",
+  "scenario": "three-docs-whatsapp",
+  "mission": "sponsor-stack-fit",
+  "session": {
+    "id": "s0003-three-docs",
+    "ordinal": 3,
+    "started_at": "2026-08-03T19:40:00Z",
+    "label": "Reading the sponsor docs before the build call"
+  },
+  "target": {
+    "channel": "whatsapp",
+    "group": "Hackathon 08/03 - TEAM O"
+  },
+  "boards": [
+    {
+      "board_id": "d0000001-0000-4000-8000-000000000001",
+      "app": "Safari",
+      "title": "RocketRide Cloud — Execution Pipelines (docs)",
+      "url": "https://cloud.rocketride.ai/docs/pipelines",
+      "last_seen": "2026-08-03T19:52:10Z",
+      "notes": [],
+      "deltas": [],
+      "topics": [{ "topic": "execution-pipeline", "score": 0.5 }],
+      "unspoken": true
+    },
+    {
+      "board_id": "d0000002-0000-4000-8000-000000000002",
+      "app": "Safari",
+      "title": "FalkorDB — Graph + Vector memory (docs)",
+      "url": "https://docs.falkordb.com/",
+      "last_seen": "2026-08-03T19:53:02Z",
+      "notes": [],
+      "deltas": [],
+      "topics": [{ "topic": "graph-memory", "score": 0.42 }],
+      "unspoken": true
+    },
+    {
+      "board_id": "d0000003-0000-4000-8000-000000000003",
+      "app": "Safari",
+      "title": "Ambient Agents: capturing work context (arXiv 2508.01123)",
+      "url": "https://arxiv.org/abs/2508.01123",
+      "last_seen": "2026-08-03T19:54:20Z",
+      "notes": [
+        {
+          "mode": "note",
+          "t": "2026-08-03T19:54:40Z",
+          "text": "section four privacy model is close to what we said we'd do"
+        }
+      ],
+      "deltas": [],
+      "topics": [{ "topic": "context-capture", "score": 0.33 }],
+      "unspoken": false
+    },
+    {
+      "board_id": "q0000004-0000-4000-8000-000000000004",
+      "app": "Safari",
+      "title": "ChatGPT — \"does RocketRide run pipelines async or block?\"",
+      "url": "https://chatgpt.com/",
+      "last_seen": "2026-08-03T19:55:30Z",
+      "notes": [],
+      "deltas": [
+        {
+          "kind": "assistant_answer",
+          "source": "chatgpt",
+          "preview": "RocketRide runs pipelines asynchronously and returns a trace URL you poll; a run can also be awaited synchronously for short jobs."
+        }
+      ],
+      "topics": [{ "topic": "execution-pipeline", "score": 0.30 }],
+      "unspoken": false
+    },
+    {
+      "board_id": "q0000005-0000-4000-8000-000000000005",
+      "app": "Safari",
+      "title": "Claude — \"can FalkorDB do vector similarity for recall?\"",
+      "url": "https://claude.ai/",
+      "last_seen": "2026-08-03T19:56:15Z",
+      "notes": [],
+      "deltas": [
+        {
+          "kind": "assistant_answer",
+          "source": "claude",
+          "preview": "Yes — FalkorDB supports vector indexes, so you can store episode embeddings on nodes and do similarity recall inside the same graph query."
+        }
+      ],
+      "topics": [{ "topic": "graph-memory", "score": 0.28 }],
+      "unspoken": false
+    },
+    {
+      "board_id": "q0000006-0000-4000-8000-000000000006",
+      "app": "Safari",
+      "title": "Perplexity — \"ambient capture privacy patterns\"",
+      "url": "https://www.perplexity.ai/",
+      "last_seen": "2026-08-03T19:57:05Z",
+      "notes": [],
+      "deltas": [
+        {
+          "kind": "assistant_answer",
+          "source": "perplexity",
+          "preview": "Common pattern: keep raw capture on-device, publish only derived structured events, and make the recording state always visible to the user."
+        }
+      ],
+      "topics": [{ "topic": "context-capture", "score": 0.22 }],
+      "unspoken": false
+    }
+  ],
+  "history_joins": [
+    {
+      "topic": "execution-pipeline",
+      "episode": "seed_team_execution_layer",
+      "body": "On the last TEAM O call you agreed to own the execution layer and report back on whether RocketRide is the right thing to build the dispatch pipeline on. Nobody has posted an answer yet.",
+      "t": "2026-08-03T17:10:00Z"
+    },
+    {
+      "topic": "graph-memory",
+      "episode": "seed_team_memory_choice",
+      "body": "Open team question from this morning: do we keep a separate vector store, or can the graph hold embeddings too? Left undecided in the channel.",
+      "t": "2026-08-03T15:30:00Z"
+    },
+    {
+      "topic": "context-capture",
+      "episode": "seed_team_privacy_promise",
+      "body": "TEAM O told the judges our differentiator is on-device capture with a visible recording state. That promise needs a source before the demo.",
+      "t": "2026-08-02T22:00:00Z"
+    }
+  ],
+  "prior_sessions": [
+    {
+      "session_id": "s0002-signal-pipeline",
+      "weight": 0.05,
+      "topics": [{ "topic": "signal-pipeline", "score": 0.4 }],
+      "notes": ["earlier signal-pipeline session; superseded by today's sponsor research"]
+    }
+  ]
+}

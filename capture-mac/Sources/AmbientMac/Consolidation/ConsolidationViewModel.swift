@@ -8,6 +8,10 @@ final class ConsolidationViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var pendingAction: ConsolidationResponse.SuggestedAction?
     @Published var result: DispatchResult?
+    /// Steps revealed one at a time so a rehearsed dispatch plays back as if it
+    /// is executing live on stage.
+    @Published var executionSteps: [ExecutionStep] = []
+    @Published var isDispatching = false
 
     let store: SessionStore
     private let service: Lane3Serving
@@ -43,6 +47,7 @@ final class ConsolidationViewModel: ObservableObject {
         store.ignore(response: response)
         self.response = nil
         result = nil
+        executionSteps = []
     }
 
     func ask() {
@@ -78,6 +83,9 @@ final class ConsolidationViewModel: ObservableObject {
         guard let response, let action = pendingAction, !isLoading else { return }
         pendingAction = nil
         isLoading = true
+        isDispatching = true
+        result = nil
+        executionSteps = []
         store.append(type: "action.approved", title: action.label, detail: "Approved by user")
         Task {
             do {
@@ -86,12 +94,18 @@ final class ConsolidationViewModel: ObservableObject {
                     response: response,
                     action: action
                 )
+                // Reveal the pipeline one step at a time — the "pretend live" beat.
+                for step in result.steps ?? [] {
+                    executionSteps.append(step)
+                    try? await Task.sleep(nanoseconds: 550_000_000)
+                }
                 self.result = result
                 store.recordDispatch(result)
             } catch {
                 errorMessage = error.localizedDescription
                 store.append(type: "dispatch.failed", title: "Dispatch failed", detail: error.localizedDescription)
             }
+            isDispatching = false
             isLoading = false
         }
     }

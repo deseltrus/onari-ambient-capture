@@ -4,18 +4,53 @@ The Mac app owns the visible session surface. This local bridge keeps service
 credentials out of Swift and provides one stable API for Guild/model
 coordination and RocketRide execution.
 
-## Run the demo path
+## The demo: three documents → WhatsApp team update
 
-From the repository root:
+One command from the repository root:
+
+```bash
+./lane3/run_demo.sh
+```
+
+It starts the bridge on the `three-docs-whatsapp` scenario and launches the
+menu-bar app pointed at it. Open the window with **⌘I**. Onari shows that you
+read three documents (RocketRide docs, FalkorDB docs, an ambient-agents paper)
+and answered three open TEAM O questions in your tabs — then offers to **post
+the synthesis to the group "Hackathon 08/03 - TEAM O."** Approving runs the
+RocketRide execution pipeline, whose steps play back live.
+
+Scenario source: `scenarios/three-docs-whatsapp.json`. Presenter script:
+`seed/demo-scenario-whatsapp.md`.
+
+### Execution pipeline modes (`ONARI_EXECUTOR`)
+
+| Value | What happens |
+|---|---|
+| `rehearsal` *(default)* | Pretend-live: every pipeline step is shown, the WhatsApp message is drafted, but **nothing is sent**. This is the demo mode. |
+| `whatsapp_mac` | **Real** send through the WhatsApp desktop app via AppleScript UI scripting. Opt-in. Requires WhatsApp installed + logged in and Accessibility permission. |
+| `rocketride` | Forward the approved intent to a RocketRide Cloud endpoint (`ROCKETRIDE_ENDPOINT` / `ROCKETRIDE_API_KEY`) and normalize its response. |
+
+```bash
+# Real send (will actually post to the group):
+ONARI_EXECUTOR=whatsapp_mac ./lane3/run_demo.sh
+```
+
+### Run the pieces by hand
 
 ```bash
 python3 lane3/bridge.py
 ONARI_LANE3_URL=http://127.0.0.1:8765 swift run --package-path capture-mac
 ```
 
-Without `ONARI_LANE3_URL`, the Mac app reads `intent-frame.json` itself and
-uses the same deterministic fixture response. No cloud account is required to
-rehearse the UI.
+Without `ONARI_LANE3_URL`, the Mac app reads the scenario frame itself and uses
+the same deterministic fixture response (including the WhatsApp pipeline). No
+cloud account is required to rehearse the UI.
+
+## Legacy scenario
+
+The original LinkedIn outreach story still works: set
+`ONARI_SCENARIO=` to a name that resolves to `intent-frame.json`, or point
+`ONARI_INTENT_FRAME` at it directly.
 
 ## Connect an AI provider during Guild setup
 

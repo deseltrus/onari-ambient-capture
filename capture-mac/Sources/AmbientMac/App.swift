@@ -206,12 +206,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return menu
     }
 
-    /// Straight from `seed/demo-scenario.md`. Keep these in sync with the script.
+    /// Straight from `seed/demo-scenario-whatsapp.md`. Keep these in sync with
+    /// the script: the manual fallback for the three-documents wander.
     static let scriptedNotes = [
-        "interesting, ties into the signal thing",
-        "this section three argument supports our capture approach",
-        "compare this with the pipeline latency issue",
-        "that point at minute twelve about context loss, exactly our case",
+        "section four privacy model is close to what we said we'd do",
+        "so RocketRide runs pipelines async and hands back a trace URL",
+        "FalkorDB can hold the embeddings — we don't need a second store",
+        "the team still doesn't know any of this, I should tell them",
     ]
 
     @objc private func toggleRecording() {

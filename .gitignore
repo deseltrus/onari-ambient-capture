@@ -5,3 +5,5 @@
 .DS_Store
 node_modules/
 __pycache__/
+lane1-*.log
+*.pyc

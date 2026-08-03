@@ -35,6 +35,7 @@ sys.path.insert(0, str(REPO_ROOT / "laser-bridge"))
 #   lane2_common  -> lane2/common.py               (FalkorDB connection)
 import laser_common  # noqa: E402  (path set above)
 import common as lane2_common  # noqa: E402
+from consolidate import consolidate, render  # noqa: E402
 from ingest import write_event  # noqa: E402  lane2/ingest.py
 from link import link_all  # noqa: E402
 
@@ -56,7 +57,7 @@ def describe(ev: dict) -> str:
     return str(kind)
 
 
-async def run(from_now: bool, link_every: int) -> None:
+async def run(from_now: bool, link_every: int, show_frame: bool) -> None:
     graph = lane2_common.get_graph()
     laser = await laser_common.connect()
 
@@ -114,6 +115,10 @@ async def run(from_now: bool, link_every: int) -> None:
             if link_every and since_link >= link_every:
                 since_link = 0
                 link_all(graph)
+                if show_frame:
+                    # Niv's live.py renders after every event; on a live stream
+                    # that is a wall of text, so it rides the link cadence here.
+                    print("\n" + render(consolidate(graph)) + "\n", flush=True)
     finally:
         await laser.close()
 
@@ -125,10 +130,12 @@ def main() -> None:
                         help="ignore events already on the topic")
     parser.add_argument("--link-every", type=int, default=0, metavar="N",
                         help="re-run the relevance linker every N events (0 = never)")
+    parser.add_argument("--show-frame", action="store_true",
+                        help="print the consolidation after each link pass (the demo surface)")
     args = parser.parse_args()
 
     try:
-        asyncio.run(run(args.from_now, args.link_every))
+        asyncio.run(run(args.from_now, args.link_every, args.show_frame))
     except KeyboardInterrupt:
         print()
 

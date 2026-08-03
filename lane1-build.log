@@ -1,0 +1,109 @@
+### swift build
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--58304C5D6DBC2206.txt
+[3/9] Emitting module AmbientMac
+[4/9] Compiling AmbientMac CaptureCoordinator.swift
+[5/9] Compiling AmbientMac App.swift
+[6/9] Compiling AmbientMac Log.swift
+[6/9] Write Objects.LinkFileList
+[7/9] Linking AmbientMac
+[8/9] Applying AmbientMac
+Build complete! (0.69s)
+### EXIT_BUILD:0
+### swift test
+[0/1] Planning build
+Building for debugging...
+[0/5] Write swift-version--58304C5D6DBC2206.txt
+[2/9] Compiling AmbientMacTests SwitchChainTests.swift
+[3/9] Compiling AmbientMacTests SpotlightOverlayWindowTests.swift
+[4/9] Compiling AmbientMacTests HotKeyComboTests.swift
+[5/9] Emitting module AmbientMacTests
+[6/9] Compiling AmbientMacTests ContractConformanceTests.swift
+[7/9] Compiling AmbientMacTests BoardIdentityTests.swift
+[7/9] Write Objects.LinkFileList
+[8/9] Linking AmbientMacPackageTests
+Build complete! (0.66s)
+Test Suite 'All tests' started at 2026-08-03 12:31:45.300.
+Test Suite 'AmbientMacPackageTests.xctest' started at 2026-08-03 12:31:45.300.
+Test Suite 'BoardIdentityTests' started at 2026-08-03 12:31:45.300.
+Test Case '-[AmbientMacTests.BoardIdentityTests testAppAndTitleAreNotConfusable]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testAppAndTitleAreNotConfusable]' passed (0.001 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testDifferentSurfacesProduceDifferentIDs]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testDifferentSurfacesProduceDifferentIDs]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testDirtyMarkersDoNotForkTheBoard]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testDirtyMarkersDoNotForkTheBoard]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testIDIsAWellFormedUUIDv5]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testIDIsAWellFormedUUIDv5]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testMatchesThePythonImplementation]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testMatchesThePythonImplementation]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testSameSurfaceAlwaysProducesTheSameID]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testSameSurfaceAlwaysProducesTheSameID]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testUnreadCountsDoNotForkTheBoard]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testUnreadCountsDoNotForkTheBoard]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.BoardIdentityTests testWhitespaceIsNormalized]' started.
+Test Case '-[AmbientMacTests.BoardIdentityTests testWhitespaceIsNormalized]' passed (0.000 seconds).
+Test Suite 'BoardIdentityTests' passed at 2026-08-03 12:31:45.303.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'ContractConformanceTests' started at 2026-08-03 12:31:45.303.
+Test Case '-[AmbientMacTests.ContractConformanceTests testContractConstantsMatchTheContractFile]' started.
+Test Case '-[AmbientMacTests.ContractConformanceTests testContractConstantsMatchTheContractFile]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.ContractConformanceTests testNoteEventHasExactlyTheFixtureKeys]' started.
+Test Case '-[AmbientMacTests.ContractConformanceTests testNoteEventHasExactlyTheFixtureKeys]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.ContractConformanceTests testNullsAreEmittedNotOmitted]' started.
+Test Case '-[AmbientMacTests.ContractConformanceTests testNullsAreEmittedNotOmitted]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.ContractConformanceTests testSwitchEventHasExactlyTheFixtureKeys]' started.
+Test Case '-[AmbientMacTests.ContractConformanceTests testSwitchEventHasExactlyTheFixtureKeys]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.ContractConformanceTests testTimestampFormatMatchesFixtures]' started.
+Test Case '-[AmbientMacTests.ContractConformanceTests testTimestampFormatMatchesFixtures]' passed (0.001 seconds).
+Test Suite 'ContractConformanceTests' passed at 2026-08-03 12:31:45.305.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'HotKeyComboTests' started at 2026-08-03 12:31:45.305.
+Test Case '-[AmbientMacTests.HotKeyComboTests testAliasesAreAccepted]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testAliasesAreAccepted]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.HotKeyComboTests testDefaultUsesThreeModifiersAndIsNotSpace]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testDefaultUsesThreeModifiersAndIsNotSpace]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.HotKeyComboTests testFunctionKeysParse]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testFunctionKeysParse]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.HotKeyComboTests testGarbageIsRejected]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testGarbageIsRejected]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.HotKeyComboTests testParseIsCaseAndSpaceInsensitive]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testParseIsCaseAndSpaceInsensitive]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.HotKeyComboTests testParsesAModifierChord]' started.
+Test Case '-[AmbientMacTests.HotKeyComboTests testParsesAModifierChord]' passed (0.000 seconds).
+Test Suite 'HotKeyComboTests' passed at 2026-08-03 12:31:45.305.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite 'SpotlightOverlayWindowTests' started at 2026-08-03 12:31:45.305.
+Test Case '-[AmbientMacTests.SpotlightOverlayWindowTests testClickThroughIsDefault]' started.
+Test Case '-[AmbientMacTests.SpotlightOverlayWindowTests testClickThroughIsDefault]' passed (0.038 seconds).
+Test Case '-[AmbientMacTests.SpotlightOverlayWindowTests testPanelContract]' started.
+Test Case '-[AmbientMacTests.SpotlightOverlayWindowTests testPanelContract]' passed (0.001 seconds).
+Test Suite 'SpotlightOverlayWindowTests' passed at 2026-08-03 12:31:45.344.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.039 (0.039) seconds
+Test Suite 'SwitchChainTests' started at 2026-08-03 12:31:45.344.
+Test Case '-[AmbientMacTests.SwitchChainTests testDwellMeasuresThePreviousBoardNotTheNewOne]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testDwellMeasuresThePreviousBoardNotTheNewOne]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testFirstSampleCommitsImmediatelyFromNullOrigin]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testFirstSampleCommitsImmediatelyFromNullOrigin]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testFlickThroughIsNotABoard]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testFlickThroughIsNotABoard]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testNoteTargetIsTheCommittedBoard]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testNoteTargetIsTheCommittedBoard]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testReturningToAPreviousBoardReusesItsIdentity]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testReturningToAPreviousBoardReusesItsIdentity]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testStayingOnTheSameBoardEmitsNothing]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testStayingOnTheSameBoardEmitsNothing]' passed (0.000 seconds).
+Test Case '-[AmbientMacTests.SwitchChainTests testSwitchNeedsToSettleBeforeItCommits]' started.
+Test Case '-[AmbientMacTests.SwitchChainTests testSwitchNeedsToSettleBeforeItCommits]' passed (0.000 seconds).
+Test Suite 'SwitchChainTests' passed at 2026-08-03 12:31:45.346.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'AmbientMacPackageTests.xctest' passed at 2026-08-03 12:31:45.346.
+	 Executed 28 tests, with 0 failures (0 unexpected) in 0.045 (0.046) seconds
+Test Suite 'All tests' passed at 2026-08-03 12:31:45.346.
+	 Executed 28 tests, with 0 failures (0 unexpected) in 0.045 (0.047) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
+### EXIT_TEST:0

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>AmbientMac</string>
+    <key>CFBundleIdentifier</key>
+    <string>ai.onari.ambient</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <!-- Menu-bar only: no Dock icon, no app switcher entry. -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- TCC will kill the process on first mic/speech use if these strings are
+         missing. An SPM executable has no Info.plist by default, which is why
+         Package.swift section-creates this one into the binary. -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Onari records a short voice note when you hold the capture hotkey.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Onari transcribes your voice notes on this device so they can be bound to the window you were in.</string>
+</dict>
+</plist>

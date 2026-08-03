@@ -1,0 +1,3 @@
+# The bridge itself is stdlib-only; the SDK is what talks to LaserData.
+# Not needed at all for `python3 bridge.py --stdout`.
+laser-sdk

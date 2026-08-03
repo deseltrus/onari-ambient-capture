@@ -128,6 +128,20 @@ RocketRide trace link.
 **The wow beat:** every line of the message cites something you *saw but never
 typed*. That view exists nowhere else — not in any chat.
 
+### The Session-Intelligence window
+
+The whole surface is a conversation thread — Onari's insight, your questions,
+the suggested action, the live execution pipeline, and the result are all inline
+widgets.
+
+| Consolidated insight → suggested action | You can ask, then accept |
+|---|---|
+| ![Onari surfaces the three documents it read and suggests sending the team update](docs/screenshots/onari-insight.png) | ![Ask a question in the thread, then Onari suggests the send](docs/screenshots/onari-chat.png) |
+
+**Accept → the RocketRide pipeline runs live → the WhatsApp update lands:**
+
+![The RocketRide execution pipeline plays back live and the WhatsApp message is sent to the team group](docs/screenshots/onari-dispatch.png)
+
 ### Execution modes (`ONARI_EXECUTOR`)
 
 | Value | What happens |

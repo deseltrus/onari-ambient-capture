@@ -1,7 +1,10 @@
 laser-bridge listening on http://127.0.0.1:8077/events
 --stdout: events are printed, not published
   switch #1  ∅ → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30
-  switch #2  Terminal → Claude · Claude  (held 10.4s)
-  switch #3  Claude → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30  (held 3.2s)
-  switch #4  Terminal → Claude · Claude  (held 1.6s)
-  switch #5  Claude → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30  (held 2.0s)
+  switch #2  Terminal → Claude · Claude  (held 3.2s)
+  switch #3  Claude → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30  (held 57.6s)
+  switch #4  Terminal → Claude · Claude  (held 5.2s)
+  switch #5  Claude → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30  (held 4.8s)
+  switch #6  Terminal → Claude · Claude  (held 1.6s)
+  switch #7  Claude → Terminal · onari-ambient-capture — AmbientMac ◂ lane1-run.sh — 120×30  (held 26.0s)
+  note   🎙 [Terminal] "What what have I been working on"

@@ -35,6 +35,18 @@ here is setup material; the product gets built today.
 
 Lanes 2 and 3 never wait on lane 1: fixtures carry them until integration.
 
+
+## Already prepared before today (declared base)
+
+- `event-contract.json` — four event types (switch, note, delta, result), two streams. Drafted, waiting for team confirmation
+- `fixtures/events-sample.jsonl` — contract-conform sample session, so the memory lane builds from minute one
+- `graph/schema.cypher` — board/note/switch/topic model + the consolidation query sketch
+- `seed/seed-episodes.json` + `seed/demo-scenario.md` — synthetic history and the demo script (wander sequence, note texts, the unspoken-contact beat)
+- `smoke/` — FalkorDB connection test + Graphiti driver check
+- `capture-mac/` — Swift scaffold, builds green, window-contract tests pass (borderless, click-through, never steals focus)
+
+Changelog today: repo renamed to onari-ambient-capture · scenario contact neutralized (name it on the day) · this section added.
+
 ## Checkpoints
 
 13:00 integration 1 (real events replace fixtures; if Swift lags, fixtures

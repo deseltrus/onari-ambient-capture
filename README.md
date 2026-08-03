@@ -9,6 +9,21 @@ This repo starts from our openly declared base: event contract, fixtures,
 graph schema, smoke tests, and a tested macOS window scaffold. Everything
 here is setup material; the product gets built today.
 
+## North star: the moment we build toward
+
+We are not building note-taking. We are building the proof that a system
+which watched you work can act on your behalf better than anything you
+could have typed.
+
+The three minutes at the end: the user floats through his windows,
+speaking half-thoughts, touching one page he never comments on. He steps
+back. The screen shows his session as one mission, with a suggested action
+that includes the thing he never said, and its reason. He approves with a
+word; a real workflow fires; the result comes back.
+
+If the room goes quiet at "the thing he never said", we won. Measure every
+cut you make today against that one moment. Everything else is decoration.
+
 ## T0 — first 30 minutes
 
 1. Clone. Copy `.env.example` to `.env`, fill in your own keys from last

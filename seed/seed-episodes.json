@@ -15,6 +15,11 @@
       "name": "seed_agent_workflows",
       "body": "Recurring theme: dispatching background agent workflows from assembled context instead of writing prompts by hand.",
       "reference_time": "2026-07-28T20:00:00Z"
+    },
+    {
+      "name": "seed_marie",
+      "body": "Met Marie at a talk two weeks ago, an ML engineer working on context systems. Wanted to follow up about the signal pipeline but never did.",
+      "reference_time": "2026-07-21T19:00:00Z"
     }
   ]
 }

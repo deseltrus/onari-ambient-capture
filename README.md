@@ -47,6 +47,43 @@ Lanes 2 and 3 never wait on lane 1: fixtures carry them until integration.
 
 Changelog today: repo renamed to onari-ambient-capture · scenario contact neutralized (name it on the day) · this section added.
 
+
+## Interaction states
+
+| State | Trigger | On screen |
+|---|---|---|
+| Idle | capture off | dim state dot only |
+| Capturing | capture on | active dot; events flow; nothing else |
+| Note recording | hotkey held | indicator follows cursor; release → transcribed, bound, gone |
+| Pass-through | second hotkey | same indicator; text lands in the focused field |
+| Paused | global pause | dot shows paused; zero events |
+| Consolidation | user opens view | normal window: mission + action candidates |
+| Dispatch running | approval given | workflow trace visible |
+| Result | result event | lands on dispatch surface; graph updated |
+
+## The consolidation screen
+
+| Zone | Content | Source |
+|---|---|---|
+| Top line | the session mission, one sentence | consolidation agent over session graph |
+| Left rail | boards in wander order, dwell + note count | switch chain (FalkorDB) |
+| Center | action candidates, each with WHY: source note/glance + joined history thread | multi-hop queries + seeded history |
+| Center, marked | unspoken entries (seen, never noted), visually distinct | boards without notes |
+| Bottom bar | approve · correct by voice · dismiss | Guild approval |
+| Side panel | dispatch trace, then result | RocketRide trace + result events |
+
+Contract: extremely short, clear, detail-rich. Every candidate names its why.
+
+## Goal outcomes today (acceptance at 15:00)
+
+1. Switch chain + notes land in FalkorDB from real capture events (fixtures as fallback)
+2. Note hotkey → local Parakeet transcript, bound to window + moment, visible in graph
+3. Consolidation view renders the mission from graph queries, incl. one never-noted board
+4. One approved dispatch runs a real RocketRide workflow; result streams back
+5. The 3-minute demo runs end to end, pre-warmed, per `seed/demo-scenario.md`
+
+Stretch: pass-through dictation live · agent-session delta on its board.
+
 ## Checkpoints
 
 13:00 integration 1 (real events replace fixtures; if Swift lags, fixtures

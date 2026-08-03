@@ -1,0 +1,3 @@
+{"type":"user","text":"sanitized fixture: user asks about the signal pipeline"}
+{"type":"assistant","text":"sanitized fixture: assistant answers with three steps"}
+{"type":"tool_result","text":"sanitized fixture: tool output, must NOT count as assistant delta"}

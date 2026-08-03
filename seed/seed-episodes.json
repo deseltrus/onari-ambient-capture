@@ -1,0 +1,20 @@
+{
+  "comment": "Synthetic, sanitized seed topics. No real user data. Loaded as Graphiti episodes so the demo's 'relevance against history' has history.",
+  "episodes": [
+    {
+      "name": "seed_signal_pipeline",
+      "body": "Ongoing thread: building a signal capture pipeline that turns ambient work context into structured memory. Open question: how switches between surfaces carry meaning.",
+      "reference_time": "2026-07-20T18:00:00Z"
+    },
+    {
+      "name": "seed_residency",
+      "body": "Earlier idea: applying to a builder residency in San Francisco; relevant contacts appear on LinkedIn from time to time.",
+      "reference_time": "2026-07-25T16:00:00Z"
+    },
+    {
+      "name": "seed_agent_workflows",
+      "body": "Recurring theme: dispatching background agent workflows from assembled context instead of writing prompts by hand.",
+      "reference_time": "2026-07-28T20:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$comment": "The event contract. Agreed at T0 (this is the proposal, confirm in 3 minutes instead of designing for 15). Every lane codes against exactly this. Version bumps only by team agreement.",
+  "version": 1,
+  "stream_in": "ambient-events",
+  "stream_out": "dispatch-results",
+  "events": {
+    "switch": {
+      "type": "switch",
+      "v": 1,
+      "t": "ISO-8601 timestamp",
+      "seq": "monotonic integer",
+      "from": { "app": "string|null", "title": "string|null", "board_id": "uuid|null" },
+      "to": { "app": "string", "title": "string", "board_id": "uuid" },
+      "dwell_ms_from": "integer|null"
+    },
+    "note": {
+      "type": "note",
+      "v": 1,
+      "t": "ISO-8601 timestamp",
+      "board_id": "uuid",
+      "app": "string",
+      "title": "string",
+      "text": "string (Parakeet transcript)",
+      "mode": "note | passthrough",
+      "field": "string|null (only for passthrough: which field received the text)"
+    },
+    "delta": {
+      "type": "delta",
+      "v": 1,
+      "t": "ISO-8601 timestamp",
+      "board_id": "uuid",
+      "kind": "assistant_answer",
+      "source": "claude_code | codex",
+      "preview": "string (short excerpt)"
+    },
+    "result": {
+      "type": "result",
+      "v": 1,
+      "t": "ISO-8601 timestamp",
+      "dispatch_id": "uuid",
+      "status": "running | done | failed",
+      "artifact": "string|null (the produced draft/brief, when done)"
+    }
+  }
+}

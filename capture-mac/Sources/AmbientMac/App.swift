@@ -63,6 +63,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Capture-on is a session boundary. The consolidation window owns the
         // durable timeline and Guild/RocketRide interaction state for it.
         consolidationWindow = ConsolidationWindowController()
+
+        // Demo convenience: open the Session-Intelligence window on launch so the
+        // presenter (or a screenshot pass) does not have to reach for ⌘I.
+        if ProcessInfo.processInfo.environment["ONARI_AUTOOPEN"] != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+                self?.consolidationWindow?.present()
+            }
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

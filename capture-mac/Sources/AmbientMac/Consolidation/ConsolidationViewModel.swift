@@ -173,6 +173,8 @@ final class ConsolidationViewModel: ObservableObject {
         store.append(type: "action.approved", title: action.label, detail: "Approved by user")
         Task {
             do {
+                // A visible "sending…" beat before the pipeline starts revealing.
+                try? await Task.sleep(nanoseconds: 900_000_000)
                 let result = try await service.dispatch(
                     sessionId: store.session.id,
                     response: response,
